@@ -1,6 +1,7 @@
 import React from "react";
 import { createContainer } from './domManipulators.test'
 import CustomForm from "../src/CustomForm/CustomForm";
+import ReactTestUtils from 'react-dom/test-utils'
 
 describe('CustomForm', () => {
     let render, container;
@@ -48,4 +49,20 @@ describe('CustomForm', () => {
         render(<CustomForm />)
         expect(firstNameFields().id).toEqual("firstName")
     })
+
+    it('saves existing first name when submitted', async () => {
+        expect.hasAssertions()
+        render(
+            <CustomForm firstName="Ashley"
+                onSubmit={(firstname) => {
+                    expect(firstname).toEqual('Ashley')
+                }} />
+        )
+        await ReactTestUtils.Simulate.change(firstNameFields(), {
+            target: { value: 'Ashley' }
+        })
+        await ReactTestUtils.Simulate.submit(form('customer'))
+    })
+
+
 })
