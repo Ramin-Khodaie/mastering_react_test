@@ -4,6 +4,8 @@ import CustomForm from "../src/CustomForm/CustomForm";
 import ReactTestUtils from 'react-dom/test-utils'
 
 describe('CustomForm', () => {
+    
+    
     let render, container;
 
     beforeEach(() => {
@@ -14,7 +16,7 @@ describe('CustomForm', () => {
 
     const form = id => container.querySelector(`form[id="${id}"]`)
     const labelFor = formElement => container.querySelector(`label[for="${formElement}"]`)
-    const firstNameFields = () => form('customer').elements.firstName
+    const field = (name) => form('customer').elements[name]
     const expectToBeInputFieldOfTypeText = formElement => {
         expect(formElement).not.toBeNull();
         expect(formElement.tagName).toEqual('INPUT');
@@ -28,15 +30,21 @@ describe('CustomForm', () => {
     })
 
     //group expectation about input test 
-
-    it('renders the first name field as a text box', () => {
-        render(<CustomForm />)
-        expectToBeInputFieldOfTypeText(firstNameFields())
-    })
+    
+    const itRendersAsATextBox =(fieldName)=>
+        it('renders as a text box', ()=>{
+            render(<CustomForm/>)
+            expectToBeInputFieldOfTypeText(field(fieldName))
+        })
+        itRendersAsATextBox('firstName')
+    // it('renders the first name field as a text box', () => {
+    //     render(<CustomForm />)
+    //     expectToBeInputFieldOfTypeText(field('firstName'))
+    // })
 
     it('includes the existing value for the first name', () => {
         render(<CustomForm firstName={"Ashley"} />)
-        expect(firstNameFields().value).toEqual('Ashley')
+        expect(field('firstName').value).toEqual('Ashley')
     })
 
     it('renders a label for ther first name field', () => {
@@ -47,7 +55,7 @@ describe('CustomForm', () => {
 
     it('assigns an id that matches the label id to the first name', () => {
         render(<CustomForm />)
-        expect(firstNameFields().id).toEqual("firstName")
+        expect(field('firstName').id).toEqual("firstName")
     })
 
     it('saves existing first name when submitted', async () => {
@@ -58,7 +66,7 @@ describe('CustomForm', () => {
                     expect(firstname).toEqual('Ashley')
                 }} />
         )
-        await ReactTestUtils.Simulate.change(firstNameFields(), {
+        await ReactTestUtils.Simulate.change(field('firstName'), {
             target: { value: 'Ashley' }
         })
         await ReactTestUtils.Simulate.submit(form('customer'))
