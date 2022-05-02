@@ -21,6 +21,12 @@ describe('CustomForm', () => {
         expect(formElement.type).toEqual('text')
     }
 
+    describe('first name field', ()=>{
+        it('renders as a text box', () => {
+            render(<CustomForm />)
+            expectToBeInputFieldOfTypeText(firstNameFields())
+        })
+    })
 
     it('renders a form', () => {
         render(<CustomForm />)
@@ -29,10 +35,7 @@ describe('CustomForm', () => {
 
     //group expectation about input test 
 
-    it('renders the first name field as a text box', () => {
-        render(<CustomForm />)
-        expectToBeInputFieldOfTypeText(firstNameFields())
-    })
+    
 
     it('includes the existing value for the first name', () => {
         render(<CustomForm firstName={"Ashley"} />)
