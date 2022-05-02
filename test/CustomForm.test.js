@@ -4,8 +4,7 @@ import CustomForm from "../src/CustomForm/CustomForm";
 import ReactTestUtils from 'react-dom/test-utils'
 
 describe('CustomForm', () => {
-    
-    
+        
     let render, container;
 
     beforeEach(() => {
@@ -15,38 +14,40 @@ describe('CustomForm', () => {
     })
 
     const form = id => container.querySelector(`form[id="${id}"]`)
+
     const labelFor = formElement => container.querySelector(`label[for="${formElement}"]`)
+
     const field = (name) => form('customer').elements[name]
+
     const expectToBeInputFieldOfTypeText = formElement => {
         expect(formElement).not.toBeNull();
         expect(formElement.tagName).toEqual('INPUT');
         expect(formElement.type).toEqual('text')
     }
 
-
-    it('renders a form', () => {
-        render(<CustomForm />)
-        expect(container.querySelector('form[id="customer"]')).not.toBeNull()
-    })
-
-    //group expectation about input test 
-    
     const itRendersAsATextBox =(fieldName)=>
         it('renders as a text box', ()=>{
             render(<CustomForm/>)
             expectToBeInputFieldOfTypeText(field(fieldName))
         })
-        itRendersAsATextBox('firstName')
-    // it('renders the first name field as a text box', () => {
-    //     render(<CustomForm />)
-    //     expectToBeInputFieldOfTypeText(field('firstName'))
-    // })
+    const itRendersAForm = (id) =>{        
+        it('renders a form', () => {
+            render(<CustomForm />)
+            expect(form(id)).not.toBeNull()
+        })
+    }
+    
+    const isIncludesTheExistingValues = (firstname) =>{
 
-    it('includes the existing value for the first name', () => {
-        render(<CustomForm firstName={"Ashley"} />)
-        expect(field('firstName').value).toEqual('Ashley')
-    })
-
+        it('includes the existing value for the first name', () => {
+            render(<CustomForm firstName={firstname} />)
+            expect(field(firstname).value).toEqual(firstname)
+        })
+    }
+        
+        itRendersAsATextBox('firstName')    
+        itRendersAForm('customer')
+        isIncludesTheExistingValues('firstName')
     it('renders a label for ther first name field', () => {
         render(<CustomForm />)
         expect(labelFor('firstName')).not.toBeNull()
