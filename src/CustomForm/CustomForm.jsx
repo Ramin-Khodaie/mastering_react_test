@@ -20,6 +20,13 @@ const CustomForm = ({ firstName, onSubmit }) => {
         id="firstName"
         onChange={handleChangeFirstName}
       />
+       <input
+        type="text"
+        name="lastName"
+        value={lastName}
+        id="lastName"
+        onChange={handleChangeFirstName}
+      />
     </form>
   );
 };
